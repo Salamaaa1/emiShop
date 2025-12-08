@@ -1,0 +1,278 @@
+/* ===================== GLOBAL ===================== */
+body {
+  font-family: 'Inter', sans-serif;
+  background-color: #f4f4f4;
+  color: #333;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* ===================== HEADER ===================== */
+.fnac-top-header {
+  background-color: #212121;
+  color: white;
+}
+
+.navbar-brand {
+  font-size: 1.8rem;
+  font-weight: 700;
+  letter-spacing: -1px;
+}
+
+.brand-text {
+  color: #fecb00; /* Fnac Yellow */
+}
+
+.brand-dot {
+  color: #fecb00;
+}
+
+.brand-com {
+  color: white;
+  font-weight: 300;
+}
+
+/* Search Bar */
+.search-container .input-group {
+  width: 100%;
+}
+
+.search-input {
+  border-radius: 2px 0 0 2px !important;
+  border: none;
+  height: 40px;
+  font-size: 0.9rem;
+}
+
+.search-input:focus {
+  box-shadow: none;
+}
+
+.btn-search {
+  background-color: #fecb00;
+  color: black;
+  border-radius: 0 2px 2px 0 !important;
+  border: none;
+  width: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-search:hover {
+  background-color: #e6b800;
+}
+
+/* User Actions */
+.user-actions .action-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 0.8rem;
+  cursor: pointer;
+  color: white;
+  transition: color 0.2s;
+}
+
+.user-actions .action-item i {
+  font-size: 1.2rem;
+  margin-bottom: 2px;
+}
+
+.user-actions .action-item:hover {
+  color: #fecb00;
+}
+
+/* Bottom Nav */
+.fnac-nav-bar {
+  background-color: white;
+  border-bottom: 1px solid #ddd;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.fnac-nav-bar .nav-link {
+  color: #333;
+  font-weight: 500;
+  font-size: 0.9rem;
+  padding: 12px 15px;
+  transition: color 0.2s;
+}
+
+.fnac-nav-bar .nav-link:hover {
+  color: #fecb00;
+}
+
+.fnac-nav-bar .highlight {
+  color: #d32f2f; /* Red for Flash Sales */
+  font-weight: 600;
+}
+
+/* ===================== SIDEBAR CATEGORIES ===================== */
+.categories-sidebar {
+  background-color: white;
+  padding: 0;
+  border-radius: 4px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  overflow: hidden;
+}
+
+.categories-title {
+  font-size: 1rem;
+  font-weight: 700;
+  padding: 15px;
+  background-color: #fecb00;
+  color: black;
+  margin: 0;
+}
+
+.categories-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.categories-list li {
+  padding: 12px 15px;
+  font-size: 0.9rem;
+  border-bottom: 1px solid #eee;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.categories-list li:last-child {
+  border-bottom: none;
+}
+
+.categories-list li:hover {
+  background-color: #f9f9f9;
+  color: #fecb00;
+  padding-left: 20px; /* Slide effect */
+}
+
+/* ===================== PRODUITS ===================== */
+.products-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 20px;
+  padding: 20px 0;
+}
+
+.product-card {
+  background: white;
+  border: 1px solid #eee;
+  border-radius: 4px;
+  padding: 15px;
+  transition: box-shadow 0.2s, transform 0.2s;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.product-card:hover {
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+  transform: translateY(-2px);
+  border-color: #ddd;
+}
+
+.product-image-container {
+  height: 180px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 15px;
+  overflow: hidden;
+}
+
+.product-card img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+.product-info {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.product-title {
+  font-size: 0.95rem;
+  font-weight: 600;
+  margin-bottom: 8px;
+  line-height: 1.4;
+  color: #333;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.product-rating {
+  color: #fecb00;
+  font-size: 0.8rem;
+  margin-bottom: 8px;
+}
+
+.product-price {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #d32f2f; /* Price red */
+  margin-top: auto;
+}
+
+.product-actions {
+  margin-top: 15px;
+}
+
+.btn-add-cart {
+  width: 100%;
+  background-color: #fecb00;
+  color: black;
+  border: none;
+  font-weight: 600;
+  padding: 8px;
+  border-radius: 2px;
+  transition: background 0.2s;
+}
+
+.btn-add-cart:hover {
+  background-color: #e6b800;
+}
+
+/* ===================== FOOTER ===================== */
+footer {
+  background-color: #212121;
+  color: #ccc;
+  padding: 40px 0 20px;
+  margin-top: 60px;
+  font-size: 0.9rem;
+}
+
+footer h5 {
+  color: white;
+  font-weight: 600;
+  margin-bottom: 20px;
+}
+
+footer ul {
+  list-style: none;
+  padding: 0;
+}
+
+footer ul li {
+  margin-bottom: 10px;
+}
+
+footer ul li a:hover {
+  color: #fecb00;
+}
+
+.footer-bottom {
+  border-top: 1px solid #333;
+  margin-top: 30px;
+  padding-top: 20px;
+  text-align: center;
+}
