@@ -18,6 +18,7 @@ jobs:
         env:
           GITLAB_TOKEN: ${{ secrets.GITLAB_TOKEN }}
           GITLAB_USERNAME: "Salamaaa1"
+          
           TARGET_URL: "gitlab.com/Salamaaa1/emishop.git"
         run: |
           git remote add gitlab "https://oauth2:${GITLAB_TOKEN}@${TARGET_URL}"
