@@ -1,0 +1,25 @@
+name: Mirror to GitLab
+
+on:
+  push:
+    branches: [ "**" ]
+  delete:
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Push to GitLab
+        env:
+          GITLAB_TOKEN: ${{ secrets.GITLAB_TOKEN }}
+          GITLAB_USERNAME: "Salamaaa1"
+          TARGET_URL: "gitlab.com/Salamaaa1/emishop.git"
+        run: |
+          git remote add gitlab "https://oauth2:${GITLAB_TOKEN}@${TARGET_URL}"
+          git push gitlab --all -f
+          git push gitlab --tags -f
