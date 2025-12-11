@@ -21,6 +21,6 @@ jobs:
           
           TARGET_URL: "gitlab.com/Salamaaa1/emishop.git"
         run: |
-          git remote add gitlab "https://oauth2:${GITLAB_TOKEN}@${TARGET_URL}"
+          git remote add gitlab "https://${GITLAB_USERNAME}:${GITLAB_TOKEN}@${TARGET_URL}"
           git push gitlab --all -f
           git push gitlab --tags -f
