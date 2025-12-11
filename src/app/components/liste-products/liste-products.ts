@@ -1,11 +1,28 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, inject, signal } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { Product, ProductService } from '../../services/product.service';
+import { CartService } from '../../services/cart.service';
 
 @Component({
   selector: 'app-liste-products',
-  imports: [],
+  standalone: true,
+  imports: [CommonModule],
   templateUrl: './liste-products.html',
   styleUrl: './liste-products.css',
 })
-export class ListeProducts {
+export class ListeProducts implements OnInit {
+  productService = inject(ProductService);
+  cartService = inject(CartService);
 
+  ngOnInit() {
+    // Initial fetch if empty
+    if (this.productService.products().length === 0) {
+      this.productService.getProducts().subscribe();
+    }
+  }
+
+  onSortChange(event: Event) {
+    const select = event.target as HTMLSelectElement;
+    this.productService.sortProducts(select.value);
+  }
 }

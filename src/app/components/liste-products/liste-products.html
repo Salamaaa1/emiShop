@@ -1,161 +1,42 @@
 <!-- Sort Bar -->
 <div class="d-flex justify-content-between align-items-center mb-3 p-2 bg-white border rounded">
-  <span class="fw-bold">12 Produits trouvés</span>
+  <span class="fw-bold">{{ productService.products().length }} Produits trouvés</span>
   <div class="d-flex align-items-center">
     <label class="me-2 text-muted small">Trier par :</label>
-    <select class="form-select form-select-sm" style="width: auto;">
-      <option>Pertinence</option>
-      <option>Prix croissant</option>
-      <option>Prix décroissant</option>
-      <option>Meilleures ventes</option>
+    <select class="form-select form-select-sm" style="width: auto;" (change)="onSortChange($event)">
+      <option value="">Pertinence</option>
+      <option value="price-asc">Prix croissant</option>
+      <option value="price-desc">Prix décroissant</option>
+      <option value="rating">Meilleures ventes</option>
     </select>
   </div>
 </div>
 
 <div class="products-grid">
 
-  <!-- Product 1 -->
+  @for (product of productService.products(); track product.id) {
   <div class="product-card">
     <div class="product-image-container">
-      <img src="https://placehold.co/200x200?text=MacBook+Pro" alt="MacBook Pro">
+      <img [src]="product.thumbnail" [alt]="product.title">
     </div>
     <div class="product-info">
       <div class="product-rating">
-        <i class="bi bi-star-fill"></i>
-        <i class="bi bi-star-fill"></i>
-        <i class="bi bi-star-fill"></i>
-        <i class="bi bi-star-fill"></i>
-        <i class="bi bi-star-half"></i>
-        <span class="text-muted ms-1">(45)</span>
+        <i class="bi bi-star-fill text-warning"></i>
+        <span class="fw-bold ms-1">{{ product.rating }}</span>
       </div>
-      <h3 class="product-title">Apple MacBook Pro 14" M3 Pro 18Go 512Go SSD Noir Sidéral</h3>
-      <p class="product-price">27 990 DH</p>
+      <h3 class="product-title">{{ product.title }}</h3>
+      <p class="product-price">{{ product.price * 10 | number:'1.2-2' }} MAD</p>
       <div class="product-actions">
-        <button class="btn btn-add-cart">
+        <button class="btn btn-add-cart" (click)="cartService.addToCart(product)">
           <i class="bi bi-cart-plus me-2"></i>Ajouter
         </button>
       </div>
     </div>
   </div>
-
-  <!-- Product 2 -->
-  <div class="product-card">
-    <div class="product-image-container">
-      <img src="https://placehold.co/200x200?text=iPhone+15" alt="iPhone 15">
-    </div>
-    <div class="product-info">
-      <div class="product-rating">
-        <i class="bi bi-star-fill"></i>
-        <i class="bi bi-star-fill"></i>
-        <i class="bi bi-star-fill"></i>
-        <i class="bi bi-star-fill"></i>
-        <i class="bi bi-star"></i>
-        <span class="text-muted ms-1">(128)</span>
-      </div>
-      <h3 class="product-title">Apple iPhone 15 128 Go Noir 5G</h3>
-      <p class="product-price">10 990 DH</p>
-      <div class="product-actions">
-        <button class="btn btn-add-cart">
-          <i class="bi bi-cart-plus me-2"></i>Ajouter
-        </button>
-      </div>
-    </div>
+  } @empty {
+  <div class="col-12 text-center">
+    <p>Aucun produit trouvé.</p>
   </div>
-
-  <!-- Product 3 -->
-  <div class="product-card">
-    <div class="product-image-container">
-      <img src="https://placehold.co/200x200?text=Sony+WH-1000XM5" alt="Sony Casque">
-    </div>
-    <div class="product-info">
-      <div class="product-rating">
-        <i class="bi bi-star-fill"></i>
-        <i class="bi bi-star-fill"></i>
-        <i class="bi bi-star-fill"></i>
-        <i class="bi bi-star-fill"></i>
-        <i class="bi bi-star-fill"></i>
-        <span class="text-muted ms-1">(312)</span>
-      </div>
-      <h3 class="product-title">Casque à réduction de bruit Sony WH-1000XM5 Noir</h3>
-      <p class="product-price">3 990 DH</p>
-      <div class="product-actions">
-        <button class="btn btn-add-cart">
-          <i class="bi bi-cart-plus me-2"></i>Ajouter
-        </button>
-      </div>
-    </div>
-  </div>
-
-  <!-- Product 4 -->
-  <div class="product-card">
-    <div class="product-image-container">
-      <img src="https://placehold.co/200x200?text=PS5+Slim" alt="PS5">
-    </div>
-    <div class="product-info">
-      <div class="product-rating">
-        <i class="bi bi-star-fill"></i>
-        <i class="bi bi-star-fill"></i>
-        <i class="bi bi-star-fill"></i>
-        <i class="bi bi-star-fill"></i>
-        <i class="bi bi-star-half"></i>
-        <span class="text-muted ms-1">(890)</span>
-      </div>
-      <h3 class="product-title">Console Sony PlayStation 5 Slim Édition Standard</h3>
-      <p class="product-price">6 490 DH</p>
-      <div class="product-actions">
-        <button class="btn btn-add-cart">
-          <i class="bi bi-cart-plus me-2"></i>Ajouter
-        </button>
-      </div>
-    </div>
-  </div>
-
-  <!-- Product 5 -->
-  <div class="product-card">
-    <div class="product-image-container">
-      <img src="https://placehold.co/200x200?text=Canon+EOS+R50" alt="Canon Camera">
-    </div>
-    <div class="product-info">
-      <div class="product-rating">
-        <i class="bi bi-star-fill"></i>
-        <i class="bi bi-star-fill"></i>
-        <i class="bi bi-star-fill"></i>
-        <i class="bi bi-star-fill"></i>
-        <i class="bi bi-star"></i>
-        <span class="text-muted ms-1">(24)</span>
-      </div>
-      <h3 class="product-title">Appareil photo Hybride Canon EOS R50 + Objectif RF-S 18-45mm</h3>
-      <p class="product-price">8 990 DH</p>
-      <div class="product-actions">
-        <button class="btn btn-add-cart">
-          <i class="bi bi-cart-plus me-2"></i>Ajouter
-        </button>
-      </div>
-    </div>
-  </div>
-
-  <!-- Product 6 -->
-  <div class="product-card">
-    <div class="product-image-container">
-      <img src="https://placehold.co/200x200?text=Livre+Dune" alt="Livre">
-    </div>
-    <div class="product-info">
-      <div class="product-rating">
-        <i class="bi bi-star-fill"></i>
-        <i class="bi bi-star-fill"></i>
-        <i class="bi bi-star-fill"></i>
-        <i class="bi bi-star-fill"></i>
-        <i class="bi bi-star-fill"></i>
-        <span class="text-muted ms-1">(1500)</span>
-      </div>
-      <h3 class="product-title">Dune - Tome 1 - Frank Herbert (Poche)</h3>
-      <p class="product-price">130 DH</p>
-      <div class="product-actions">
-        <button class="btn btn-add-cart">
-          <i class="bi bi-cart-plus me-2"></i>Ajouter
-        </button>
-      </div>
-    </div>
-  </div>
+  }
 
 </div>

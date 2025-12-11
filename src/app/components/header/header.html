@@ -12,7 +12,8 @@
       <!-- Search Bar -->
       <div class="search-container flex-grow-1 mx-4 d-none d-lg-block">
         <div class="input-group">
-          <input type="text" class="form-control search-input" placeholder="Rechercher un produit, une marque...">
+          <input type="text" class="form-control search-input" placeholder="Rechercher un produit, une marque..."
+            (input)="onSearch($event)">
           <button class="btn btn-search" type="button">
             <i class="bi bi-search"></i>
           </button>
@@ -29,9 +30,15 @@
           <i class="bi bi-heart"></i>
           <span class="d-none d-md-inline ms-1">Favoris</span>
         </div>
-        <div class="action-item">
+        <div class="action-item position-relative" style="cursor: pointer;" data-bs-toggle="offcanvas"
+          data-bs-target="#cartOffcanvas">
           <i class="bi bi-cart"></i>
           <span class="d-none d-md-inline ms-1">Panier</span>
+          @if (cartService.totalItems() > 0) {
+          <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+            {{ cartService.totalItems() }}
+          </span>
+          }
         </div>
       </div>
     </div>
