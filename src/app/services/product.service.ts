@@ -35,7 +35,7 @@ export interface ProductResponse {
 export class ProductService {
     private apiUrl = 'https://dummyjson.com/products';
 
-    // State signals
+
     products = signal<Product[]>([]);
     categories = signal<Category[]>([]);
 

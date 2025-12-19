@@ -15,7 +15,7 @@ export class ListeProducts implements OnInit {
   cartService = inject(CartService);
 
   ngOnInit() {
-    // Initial fetch if empty
+
     if (this.productService.products().length === 0) {
       this.productService.getProducts().subscribe();
     }
