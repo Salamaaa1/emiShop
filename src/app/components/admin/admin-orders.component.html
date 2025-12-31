@@ -1,0 +1,50 @@
+<div class="container mt-5">
+    <h2>Admin Dashboard - Orders Management</h2>
+
+    <table class="table table-bordered mt-3">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>User ID</th>
+                <th>Date</th>
+                <th>Items</th>
+                <th>Total</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let order of orders">
+                <td>{{ order.id }}</td>
+                <td><small>{{ order.userId }}</small></td>
+                <td>{{ order.date | date:'short' }}</td>
+                <td>
+                    <ul class="list-unstyled mb-0 small">
+                        <li *ngFor="let item of order.items">
+                            {{ item.quantity }}x {{ item.product.title }}
+                        </li>
+                    </ul>
+                </td>
+                <td>${{ order.totalAmount }}</td>
+                <td>
+                    <span class="badge" [ngClass]="{
+                'bg-warning': order.status === 'Pending',
+                'bg-success': order.status === 'Shipped',
+                'bg-info': order.status === 'Delivered',
+                'bg-danger': order.status === 'Cancelled'
+            }">
+                        {{ order.status }}
+                    </span>
+                </td>
+                <td>
+                    <div class="btn-group btn-group-sm">
+                        <button class="btn btn-outline-success" (click)="updateStatus(order, 'Shipped')">Ship</button>
+                        <button class="btn btn-outline-info" (click)="updateStatus(order, 'Delivered')">Deliver</button>
+                        <button class="btn btn-outline-danger"
+                            (click)="updateStatus(order, 'Cancelled')">Cancel</button>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

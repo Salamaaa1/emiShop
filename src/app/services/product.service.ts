@@ -65,6 +65,10 @@ export class ProductService {
         );
     }
 
+    getProduct(id: string): Observable<Product> {
+        return this.http.get<Product>(`${this.apiUrl}/${id}`);
+    }
+
     sortProducts(sortBy: string) {
         this.products.update(products => {
             const sorted = [...products];

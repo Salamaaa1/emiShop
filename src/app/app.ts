@@ -16,8 +16,6 @@ import { Footer } from './components/footer/footer';
   imports: [
     RouterOutlet,
     Header,
-    Categories,
-    ListeProducts,
     Auth,
     Panier,
     Footer

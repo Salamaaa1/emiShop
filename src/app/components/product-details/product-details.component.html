@@ -1,0 +1,59 @@
+<div class="container mt-5" *ngIf="product">
+    <div class="row">
+        <div class="col-md-6">
+            <img [src]="product.thumbnail" class="img-fluid rounded" [alt]="product.title">
+            <div class="row mt-2">
+                <div class="col-3" *ngFor="let img of product.images">
+                    <img [src]="img" class="img-thumbnail" [alt]="product.title">
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <h1>{{ product.title }}</h1>
+            <p class="text-muted">{{ product.brand }} - {{ product.category }}</p>
+            <h3 class="text-primary">${{ product.price }}</h3>
+            <p>{{ product.description }}</p>
+            <button class="btn btn-success btn-lg">Add to Cart</button>
+        </div>
+    </div>
+
+    <hr class="my-5">
+
+    <div class="row">
+        <div class="col-12">
+            <h3>Comments</h3>
+
+            <!-- Comment List -->
+            <div class="card mb-3" *ngFor="let comment of comments">
+                <div class="card-body">
+                    <h5 class="card-title">{{ comment.username }} <small class="text-muted text-sm">{{ comment.date |
+                            date:'short' }}</small></h5>
+                    <p class="card-text">{{ comment.content }}</p>
+                </div>
+            </div>
+
+            <div *ngIf="comments.length === 0" class="text-muted">
+                No comments yet. Be the first!
+            </div>
+
+            <!-- Add Comment Form -->
+            <div class="card mt-4" *ngIf="authService.currentUserSig(); else loginPrompt">
+                <div class="card-header">Leave a Comment</div>
+                <div class="card-body">
+                    <div class="mb-3">
+                        <textarea class="form-control" rows="3" [(ngModel)]="newCommentText"
+                            placeholder="Write your review..."></textarea>
+                    </div>
+                    <button class="btn btn-primary" (click)="submitComment()">Submit</button>
+                </div>
+            </div>
+
+            <ng-template #loginPrompt>
+                <div class="alert alert-info mt-4">
+                    Please <a routerLink="/login">login</a> to leave a comment.
+                </div>
+            </ng-template>
+
+        </div>
+    </div>
+</div>

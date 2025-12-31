@@ -22,10 +22,30 @@
 
 
       <div class="user-actions d-flex align-items-center">
-        <div class="action-item me-3">
-          <i class="bi bi-person"></i>
-          <span class="d-none d-md-inline ms-1">Compte</span>
-        </div>
+        <!-- Auth Actions -->
+        <ng-container *ngIf="authService.currentUserSig() as user; else loginLink">
+          <div class="action-item me-3 dropdown">
+            <span class="d-none d-md-inline ms-1 dropdown-toggle" role="button" data-bs-toggle="dropdown">
+              <i class="bi bi-person-check-fill"></i> {{ user.displayName || 'Compte' }}
+            </span>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" routerLink="/order-history">Mes Commandes</a></li>
+              <li>
+                <hr class="dropdown-divider">
+              </li>
+              <li><a class="dropdown-item" (click)="logout()" style="cursor: pointer;">Déconnexion</a></li>
+            </ul>
+          </div>
+        </ng-container>
+        <ng-template #loginLink>
+          <div class="action-item me-3">
+            <a routerLink="/login" class="text-decoration-none text-dark">
+              <i class="bi bi-person"></i>
+              <span class="d-none d-md-inline ms-1">Connexion</span>
+            </a>
+          </div>
+        </ng-template>
+
         <div class="action-item me-3">
           <i class="bi bi-heart"></i>
           <span class="d-none d-md-inline ms-1">Favoris</span>

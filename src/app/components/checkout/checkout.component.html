@@ -1,0 +1,28 @@
+<div class="container mt-5">
+    <h2>Checkout</h2>
+
+    <div class="row">
+        <div class="col-md-8">
+            <ul class="list-group mb-3">
+                <li class="list-group-item d-flex justify-content-between lh-sm"
+                    *ngFor="let item of cartService.cartItems()">
+                    <div>
+                        <h6 class="my-0">{{ item.product.title }}</h6>
+                        <small class="text-muted">Quantity: {{ item.quantity }}</small>
+                    </div>
+                    <span class="text-muted">${{ item.product.price * item.quantity }}</span>
+                </li>
+                <li class="list-group-item d-flex justify-content-between">
+                    <span>Total (USD)</span>
+                    <strong>${{ cartService.totalPrice() }}</strong>
+                </li>
+            </ul>
+        </div>
+        <div class="col-md-4">
+            <button class="btn btn-primary w-100 btn-lg" (click)="placeOrder()"
+                [disabled]="cartService.cartItems().length === 0">
+                Confirm Order
+            </button>
+        </div>
+    </div>
+</div>

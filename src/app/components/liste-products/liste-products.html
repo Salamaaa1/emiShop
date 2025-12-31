@@ -15,7 +15,7 @@
 
   @for (product of productService.products(); track product.id) {
   <div class="product-card">
-    <div class="product-image-container">
+    <div class="product-image-container" [routerLink]="['/product', product.id]" style="cursor: pointer">
       <img [src]="product.thumbnail" [alt]="product.title">
     </div>
     <div class="product-info">
@@ -23,7 +23,7 @@
         <i class="bi bi-star-fill text-warning"></i>
         <span class="fw-bold ms-1">{{ product.rating }}</span>
       </div>
-      <h3 class="product-title">{{ product.title }}</h3>
+      <h3 class="product-title" [routerLink]="['/product', product.id]" style="cursor: pointer">{{ product.title }}</h3>
       <p class="product-price">{{ product.price * 10 | number:'1.2-2' }} MAD</p>
       <div class="product-actions">
         <button class="btn btn-add-cart" (click)="cartService.addToCart(product)">
