@@ -11,7 +11,7 @@
         <div class="col-md-6">
             <h1>{{ product.title }}</h1>
             <p class="text-muted">{{ product.brand }} - {{ product.category }}</p>
-            <h3 class="text-primary">{{ product.price }} DH</h3>
+            <h3 class="text-primary">{{ product.price * 10 | number:'1.2-2' }} DH</h3>
             <p>{{ product.description }}</p>
             <button *ngIf="authService.currentUserSig()?.email !== 'admin@emishop.com'" class="btn btn-success btn-lg"
                 (click)="cartService.addToCart(product)">Ajouter au Panier</button>
