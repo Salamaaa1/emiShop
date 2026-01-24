@@ -1,50 +1,143 @@
 <div class="container mt-5">
-    <h2>Admin Dashboard - Orders Management</h2>
+    <h2>Admin Dashboard</h2>
 
-    <table class="table table-bordered mt-3">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>User ID</th>
-                <th>Date</th>
-                <th>Items</th>
-                <th>Total</th>
-                <th>Status</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr *ngFor="let order of orders">
-                <td>{{ order.id }}</td>
-                <td><small>{{ order.userId }}</small></td>
-                <td>{{ order.date | date:'short' }}</td>
-                <td>
-                    <ul class="list-unstyled mb-0 small">
-                        <li *ngFor="let item of order.items">
-                            {{ item.quantity }}x {{ item.product.title }}
-                        </li>
-                    </ul>
-                </td>
-                <td>${{ order.totalAmount }}</td>
-                <td>
-                    <span class="badge" [ngClass]="{
-                'bg-warning': order.status === 'Pending',
-                'bg-success': order.status === 'Shipped',
-                'bg-info': order.status === 'Delivered',
-                'bg-danger': order.status === 'Cancelled'
-            }">
-                        {{ order.status }}
-                    </span>
-                </td>
-                <td>
-                    <div class="btn-group btn-group-sm">
-                        <button class="btn btn-outline-success" (click)="updateStatus(order, 'Shipped')">Ship</button>
-                        <button class="btn btn-outline-info" (click)="updateStatus(order, 'Delivered')">Deliver</button>
-                        <button class="btn btn-outline-danger"
-                            (click)="updateStatus(order, 'Cancelled')">Cancel</button>
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
+    <ul class="nav nav-tabs mb-4">
+        <li class="nav-item">
+            <a class="nav-link" [class.active]="activeTab === 'orders'" (click)="activeTab = 'orders'"
+                style="cursor: pointer;">Orders</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" [class.active]="activeTab === 'users'" (click)="activeTab = 'users'"
+                style="cursor: pointer;">Users</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" [class.active]="activeTab === 'products'" (click)="activeTab = 'products'"
+                style="cursor: pointer;">Products</a>
+        </li>
+    </ul>
+
+    <!-- ORDERS TAB -->
+    <div *ngIf="activeTab === 'orders'">
+        <h3>Orders Management</h3>
+        <table class="table table-bordered mt-3">
+            <thead>
+                <tr>
+                    <th *ngFor="let header of headers" (click)="sortOrders(header.key)" style="cursor: pointer;">
+                        {{ header.label }}
+                        <span *ngIf="sortColumn === header.key">
+                            {{ sortDirection === 'asc' ? '▲' : '▼' }}
+                        </span>
+                    </th>
+                    <th>items</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let order of orders">
+                    <td>{{ order.id }}</td>
+                    <td><small>{{ order.userId }}</small></td>
+                    <td>{{ order.date | date:'short' }}</td>
+                    <td>
+                        <ul class="list-unstyled mb-0 small">
+                            <li *ngFor="let item of order.items">
+                                {{ item.quantity }}x {{ item.product.title }}
+                            </li>
+                        </ul>
+                    </td>
+                    <td>{{ order.totalAmount }} DH</td>
+                    <td>
+                        <span class="badge" [ngClass]="{
+                    'bg-warning': order.status === 'Pending',
+                    'bg-success': order.status === 'Shipped',
+                    'bg-info': order.status === 'Delivered',
+                    'bg-danger': order.status === 'Cancelled'
+                }">
+                            {{ order.status }}
+                        </span>
+                    </td>
+                    <td>
+                        <div class="btn-group btn-group-sm">
+                            <button class="btn btn-outline-success"
+                                (click)="updateStatus(order, 'Shipped')">Ship</button>
+                            <button class="btn btn-outline-info"
+                                (click)="updateStatus(order, 'Delivered')">Deliver</button>
+                            <button class="btn btn-outline-danger"
+                                (click)="updateStatus(order, 'Cancelled')">Cancel</button>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- USERS TAB -->
+    <div *ngIf="activeTab === 'users'">
+        <h3>Users Management</h3>
+        <table class="table table-striped mt-3">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Email</th>
+                    <th>Display Name</th>
+                    <th>Role</th>
+                    <th>Actions</th>
+                    <th>Date Joined</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let user of users">
+                    <td>{{ user.id }}</td>
+                    <td>{{ user.email }}</td>
+                    <td>{{ user.displayName }}</td>
+                    <td>
+                        <span class="badge" [ngClass]="user.role === 'admin' ? 'bg-danger' : 'bg-secondary'">
+                            {{ user.role || 'user' }}
+                        </span>
+                    </td>
+                    <td>
+                        <button class="btn btn-sm btn-outline-warning" (click)="resetPassword(user.email)">
+                            Réinitialiser
+                        </button>
+                    </td>
+                    <td>{{ user.date | date:'shortDate' }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- PRODUCTS TAB -->
+    <div *ngIf="activeTab === 'products'">
+        <h3>Add New Product</h3>
+        <div class="card p-4">
+            <div class="mb-3">
+                <label class="form-label">Title</label>
+                <input type="text" class="form-control" [(ngModel)]="newProduct.title">
+            </div>
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Price</label>
+                    <input type="number" class="form-control" [(ngModel)]="newProduct.price">
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Category</label>
+                    <input type="text" class="form-control" [(ngModel)]="newProduct.category">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Brand</label>
+                    <input type="text" class="form-control" [(ngModel)]="newProduct.brand">
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Thumbnail URL</label>
+                    <input type="text" class="form-control" [(ngModel)]="newProduct.thumbnail">
+                </div>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Description</label>
+                <textarea class="form-control" rows="3" [(ngModel)]="newProduct.description"></textarea>
+            </div>
+            <button class="btn btn-primary" (click)="createProduct()">Create Product</button>
+        </div>
+    </div>
 </div>

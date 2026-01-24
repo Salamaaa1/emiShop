@@ -1,4 +1,5 @@
-import { Injectable, signal } from '@angular/core';
+import { Injectable, signal, inject } from '@angular/core';
+import { AuthService } from './auth.service';
 import { HttpClient } from '@angular/common/http';
 import { Observable, tap } from 'rxjs';
 
@@ -33,7 +34,7 @@ export interface ProductResponse {
     providedIn: 'root'
 })
 export class ProductService {
-    private apiUrl = 'https://dummyjson.com/products';
+    private apiUrl = 'http://localhost:3001/api/products';
 
 
     products = signal<Product[]>([]);
@@ -83,5 +84,17 @@ export class ProductService {
                     return sorted.sort((a, b) => a.id - b.id);
             }
         });
+    }
+
+    private authService = inject(AuthService); // Inject properly (need to import inject, AuthService)
+    addProduct(product: Partial<Product>): Observable<any> {
+        const token = this.authService.getToken();
+        const headers: any = token ? { Authorization: `Bearer ${token}` } : {};
+        return this.http.post(this.apiUrl, product, { headers }).pipe(
+            tap(() => {
+                // Refresh products
+                this.getProducts().subscribe();
+            })
+        );
     }
 }

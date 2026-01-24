@@ -25,6 +25,7 @@ export class RegisterComponent {
                 // Navigation handled in service
             },
             error: (err) => {
+                console.error('RegisterComponent: Registration error', err);
                 this.errorMessage = err.message;
             }
         });

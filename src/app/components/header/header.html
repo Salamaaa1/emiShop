@@ -29,7 +29,12 @@
               <i class="bi bi-person-check-fill"></i> {{ user.displayName || 'Compte' }}
             </span>
             <ul class="dropdown-menu">
-              <li><a class="dropdown-item" routerLink="/order-history">Mes Commandes</a></li>
+              <li
+                *ngIf="authService.currentUserSig()?.email === 'admin@emishop.com' || authService.currentUserSig()?.uid === 'admin-id'">
+                <a class="dropdown-item" routerLink="/admin/orders">Tableau de bord Admin</a>
+              </li>
+              <li *ngIf="authService.currentUserSig()?.email !== 'admin@emishop.com'"><a class="dropdown-item"
+                  routerLink="/order-history">Mes Commandes</a></li>
               <li>
                 <hr class="dropdown-divider">
               </li>
@@ -46,12 +51,12 @@
           </div>
         </ng-template>
 
-        <div class="action-item me-3">
+        <div class="action-item me-3" *ngIf="authService.currentUserSig()?.email !== 'admin@emishop.com'">
           <i class="bi bi-heart"></i>
           <span class="d-none d-md-inline ms-1">Favoris</span>
         </div>
         <div class="action-item position-relative" style="cursor: pointer;" data-bs-toggle="offcanvas"
-          data-bs-target="#cartOffcanvas">
+          data-bs-target="#cartOffcanvas" *ngIf="authService.currentUserSig()?.email !== 'admin@emishop.com'">
           <i class="bi bi-cart"></i>
           <span class="d-none d-md-inline ms-1">Panier</span>
           @if (cartService.totalItems() > 0) {

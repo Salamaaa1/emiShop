@@ -4,7 +4,6 @@ import { RouterOutlet } from '@angular/router';
 import { Header } from './components/header/header';
 import { Categories } from './components/categories/categories';
 import { ListeProducts } from './components/liste-products/liste-products';
-import { Auth } from './components/auth/auth';
 import { Panier } from './components/panier/panier';
 import { Footer } from './components/footer/footer';
 
@@ -16,7 +15,6 @@ import { Footer } from './components/footer/footer';
   imports: [
     RouterOutlet,
     Header,
-    Auth,
     Panier,
     Footer
   ]

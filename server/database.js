@@ -17,6 +17,7 @@ let db = new sqlite3.Database(DBSOURCE, (err) => {
             userId TEXT,
             username TEXT,
             content TEXT,
+            rating INTEGER,
             date TEXT
         )`,
             (err) => {
@@ -45,6 +46,31 @@ let db = new sqlite3.Database(DBSOURCE, (err) => {
                     // Table just created
                 }
             });
+
+        // Create Users Table
+        db.run(`CREATE TABLE users (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            uid TEXT UNIQUE,
+            email TEXT,
+            displayName TEXT,
+            role TEXT,
+            date TEXT
+        )`);
+
+        // Create Products Table
+        db.run(`CREATE TABLE products (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            title TEXT,
+            description TEXT,
+            price REAL,
+            discountPercentage REAL,
+            rating REAL,
+            stock INTEGER,
+            brand TEXT,
+            category TEXT,
+            thumbnail TEXT,
+            images TEXT
+        )`);
     }
 });
 

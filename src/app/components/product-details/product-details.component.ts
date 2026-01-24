@@ -5,6 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { ProductService, Product } from '../../services/product.service';
 import { CommentService, Comment } from '../../services/comment.service';
 import { AuthService } from '../../services/auth.service';
+import { CartService } from '../../services/cart.service';
 
 @Component({
     selector: 'app-product-details',
@@ -17,10 +18,13 @@ export class ProductDetailsComponent implements OnInit {
     product: Product | undefined;
     comments: Comment[] = [];
     newCommentText = '';
+    newCommentRating = 5;
+    errorMessage = '';
 
     private route = inject(ActivatedRoute);
     private productService = inject(ProductService);
     private commentService = inject(CommentService);
+    public cartService = inject(CartService); // Public for template
     public authService = inject(AuthService); // Public for template access
 
     ngOnInit() {
@@ -52,12 +56,30 @@ export class ProductDetailsComponent implements OnInit {
             productId: this.product.id.toString(),
             userId: user.uid,
             username: user.displayName || user.email || 'Anonymous',
-            content: this.newCommentText
+            content: this.newCommentText,
+            rating: this.newCommentRating
         };
 
-        this.commentService.addComment(newComment).subscribe(() => {
-            this.comments.push({ ...newComment, date: new Date().toISOString() });
-            this.newCommentText = '';
+        this.commentService.addComment(newComment).subscribe({
+            next: () => {
+                this.loadComments(this.product!.id.toString()); // Reload to get IDs
+                this.newCommentText = '';
+                this.newCommentRating = 5;
+                this.errorMessage = '';
+            },
+            error: (err) => {
+                this.errorMessage = err.error.error || 'Failed to post comment';
+                console.error('Comment error:', err);
+            }
+        });
+    }
+
+    deleteComment(commentId: number | undefined) {
+        if (!commentId) return;
+        if (!confirm('Are you sure you want to delete this comment?')) return;
+
+        this.commentService.deleteComment(commentId).subscribe(() => {
+            this.comments = this.comments.filter(c => c.id !== commentId);
         });
     }
 }

@@ -24,7 +24,7 @@
         <span class="fw-bold ms-1">{{ product.rating }}</span>
       </div>
       <h3 class="product-title" [routerLink]="['/product', product.id]" style="cursor: pointer">{{ product.title }}</h3>
-      <p class="product-price">{{ product.price * 10 | number:'1.2-2' }} MAD</p>
+      <p class="product-price">{{ product.price * 10 | number:'1.2-2' }} DH</p>
       <div class="product-actions">
         <button class="btn btn-add-cart" (click)="cartService.addToCart(product)">
           <i class="bi bi-cart-plus me-2"></i>Ajouter

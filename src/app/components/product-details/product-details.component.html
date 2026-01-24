@@ -11,9 +11,10 @@
         <div class="col-md-6">
             <h1>{{ product.title }}</h1>
             <p class="text-muted">{{ product.brand }} - {{ product.category }}</p>
-            <h3 class="text-primary">${{ product.price }}</h3>
+            <h3 class="text-primary">{{ product.price }} DH</h3>
             <p>{{ product.description }}</p>
-            <button class="btn btn-success btn-lg">Add to Cart</button>
+            <button *ngIf="authService.currentUserSig()?.email !== 'admin@emishop.com'" class="btn btn-success btn-lg"
+                (click)="cartService.addToCart(product)">Ajouter au Panier</button>
         </div>
     </div>
 
@@ -21,36 +22,59 @@
 
     <div class="row">
         <div class="col-12">
-            <h3>Comments</h3>
+            <h3>Commentaires</h3>
 
             <!-- Comment List -->
             <div class="card mb-3" *ngFor="let comment of comments">
                 <div class="card-body">
-                    <h5 class="card-title">{{ comment.username }} <small class="text-muted text-sm">{{ comment.date |
-                            date:'short' }}</small></h5>
+                    <h5 class="card-title d-flex justify-content-between">
+                        <span>
+                            {{ comment.username }}
+                            <span class="text-warning ms-2" *ngIf="comment.rating">
+                                <span *ngFor="let star of [].constructor(comment.rating)">&#9733;</span>
+                            </span>
+                        </span>
+                        <small class="text-muted text-sm">{{ comment.date | date:'short' }}</small>
+                        <button *ngIf="authService.currentUserSig()?.email === 'admin@emishop.com'"
+                            class="btn btn-sm btn-outline-danger ms-2" (click)="deleteComment(comment.id)">
+                            <i class="bi bi-trash"></i>
+                        </button>
+                    </h5>
                     <p class="card-text">{{ comment.content }}</p>
                 </div>
             </div>
 
             <div *ngIf="comments.length === 0" class="text-muted">
-                No comments yet. Be the first!
+                Aucun commentaire pour l'instant. Soyez le premier !
             </div>
 
             <!-- Add Comment Form -->
             <div class="card mt-4" *ngIf="authService.currentUserSig(); else loginPrompt">
-                <div class="card-header">Leave a Comment</div>
+                <div class="card-header">Laisser un avis</div>
                 <div class="card-body">
+                    <div class="alert alert-danger" *ngIf="errorMessage">{{ errorMessage }}</div>
+                    <div class="mb-3">
+                        <label class="form-label">Note : </label>
+                        <div class="d-inline-block ms-2">
+                            <i *ngFor="let star of [1,2,3,4,5]" class="bi fs-4 me-1"
+                                [class.bi-star-fill]="star <= newCommentRating"
+                                [class.bi-star]="star > newCommentRating"
+                                [class.text-warning]="star <= newCommentRating" (click)="newCommentRating = star"
+                                style="cursor: pointer;">
+                            </i>
+                        </div>
+                    </div>
                     <div class="mb-3">
                         <textarea class="form-control" rows="3" [(ngModel)]="newCommentText"
-                            placeholder="Write your review..."></textarea>
+                            placeholder="Écrivez votre avis..."></textarea>
                     </div>
-                    <button class="btn btn-primary" (click)="submitComment()">Submit</button>
+                    <button class="btn btn-primary" (click)="submitComment()">Envoyer</button>
                 </div>
             </div>
 
             <ng-template #loginPrompt>
                 <div class="alert alert-info mt-4">
-                    Please <a routerLink="/login">login</a> to leave a comment.
+                    Veuillez <a routerLink="/login">vous connecter</a> pour laisser un commentaire.
                 </div>
             </ng-template>
 

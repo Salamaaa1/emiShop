@@ -19,6 +19,10 @@ export class LoginComponent {
     private authService = inject(AuthService);
 
     onSubmit() {
+        if (this.email.trim().toLowerCase() === 'admin') {
+            this.email = 'admin@emishop.com';
+        }
+
         this.authService.login(this.email, this.password).subscribe({
             next: () => {
                 // Navigation handled in service
@@ -28,4 +32,5 @@ export class LoginComponent {
             }
         });
     }
+
 }
