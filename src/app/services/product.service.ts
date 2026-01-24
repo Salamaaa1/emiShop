@@ -80,6 +80,8 @@ export class ProductService {
                     return sorted.sort((a, b) => b.price - a.price);
                 case 'rating':
                     return sorted.sort((a, b) => b.rating - a.rating);
+                case 'best-sellers':
+                    return sorted.sort((a: any, b: any) => (b.sold || 0) - (a.sold || 0));
                 default:
                     return sorted.sort((a, b) => a.id - b.id);
             }

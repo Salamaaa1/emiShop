@@ -8,13 +8,14 @@
                     *ngFor="let item of cartService.cartItems()">
                     <div>
                         <h6 class="my-0">{{ item.product.title }}</h6>
-                        <small class="text-muted">Quantity: {{ item.quantity }}</small>
+                        <small class="text-muted">Quantité: {{ item.quantity }}</small>
                     </div>
-                    <span class="text-muted">${{ item.product.price * item.quantity }}</span>
+                    <!-- Fix: Multiply price by 10 for DH and verify multiplication logic matches Service -->
+                    <span class="text-muted">{{ (item.product.price * 10 * item.quantity) | number:'1.2-2' }} DH</span>
                 </li>
                 <li class="list-group-item d-flex justify-content-between">
-                    <span>Total (USD)</span>
-                    <strong>${{ cartService.totalPrice() }}</strong>
+                    <span>Total (DH)</span>
+                    <strong>{{ cartService.totalPrice() | number:'1.2-2' }} DH</strong>
                 </li>
             </ul>
         </div>

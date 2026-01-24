@@ -16,6 +16,17 @@ const HTTP_PORT = 3001;
 // Start server
 app.listen(HTTP_PORT, () => {
     console.log("Server running on port %PORT%".replace("%PORT%", HTTP_PORT));
+    // Migration: Add 'sold' column if not exists
+    db.run("ALTER TABLE products ADD COLUMN sold INTEGER DEFAULT 0", (err) => {
+        if (err && !err.message.includes("duplicate column")) {
+            console.log("Migration warning:", err.message);
+        } else {
+            console.log("Migration: 'sold' column added or already exists.");
+        }
+    });
+
+    // Ensure 'rating' column exists too purely for safety
+    db.run("ALTER TABLE products ADD COLUMN rating REAL DEFAULT 0", (err) => { });
 });
 
 // Middleware to verify JWT
@@ -160,6 +171,13 @@ app.post("/api/orders", verifyToken, (req, res, next) => {
             res.status(400).json({ "error": err.message })
             return;
         }
+
+        // Update Sold Count for each product
+        const items = JSON.parse(data.items);
+        items.forEach(item => {
+            db.run("UPDATE products SET sold = sold + ? WHERE id = ?", [item.quantity, item.product.id]);
+        });
+
         res.json({
             "message": "success",
             "data": data,
