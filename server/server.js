@@ -26,7 +26,11 @@ app.listen(HTTP_PORT, () => {
     });
 
     // Ensure 'rating' column exists too purely for safety
-    db.run("ALTER TABLE products ADD COLUMN rating REAL DEFAULT 0", (err) => { });
+    db.run("ALTER TABLE products ADD COLUMN rating REAL DEFAULT 0", (err) => {
+        if (err && !err.message.includes("duplicate column")) {
+            console.log("Migration warning (rating):", err.message);
+        }
+    });
 });
 
 // Middleware to verify JWT
@@ -144,6 +148,13 @@ app.post("/api/comments", verifyToken, (req, res, next) => {
                 res.status(400).json({ "error": err.message })
                 return;
             }
+            // Update Average Rating
+            db.get("SELECT AVG(rating) as avgRating FROM comments WHERE productId = ?", [data.productId], (err, row) => {
+                if (!err && row) {
+                    db.run("UPDATE products SET rating = ? WHERE id = ?", [row.avgRating || 0, data.productId]);
+                }
+            });
+
             res.json({
                 "message": "success",
                 "data": data,
@@ -293,6 +304,37 @@ app.get("/api/users", verifyToken, (req, res) => {
 app.get("/api/products", (req, res) => {
     const sql = "SELECT * FROM products";
     db.all(sql, [], (err, rows) => {
+        if (err) return res.status(400).json({ error: err.message });
+        const products = rows.map(p => ({ ...p, images: JSON.parse(p.images) }));
+        res.json({ products: products, total: products.length, skip: 0, limit: products.length });
+    });
+});
+
+// Get products by category
+app.get("/api/products/category/:slug", (req, res) => {
+    const sql = "SELECT * FROM products WHERE category = ?"; // Assuming 'category' column stores the slug/name
+    // In a real app, you might map slug to name or have a categories table.
+    // Here we assume category column matches the slug for simplicity or use LIKE.
+
+    // For better matching if slugs differ from display names:
+    // const sql = "SELECT * FROM products WHERE lower(category) = ?";
+
+    db.all(sql, [req.params.slug], (err, rows) => {
+        if (err) return res.status(400).json({ error: err.message });
+        const products = rows.map(p => ({ ...p, images: JSON.parse(p.images) }));
+        res.json({ products: products, total: products.length, skip: 0, limit: products.length });
+    });
+});
+
+// Search products
+app.get("/api/products/search", (req, res) => {
+    const q = req.query.q;
+    if (!q) return res.json({ products: [], total: 0 });
+
+    const sql = "SELECT * FROM products WHERE title LIKE ? OR description LIKE ? OR category LIKE ? OR brand LIKE ?";
+    const params = [`%${q}%`, `%${q}%`, `%${q}%`, `%${q}%`];
+
+    db.all(sql, params, (err, rows) => {
         if (err) return res.status(400).json({ error: err.message });
         const products = rows.map(p => ({ ...p, images: JSON.parse(p.images) }));
         res.json({ products: products, total: products.length, skip: 0, limit: products.length });

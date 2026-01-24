@@ -54,8 +54,9 @@ let db = new sqlite3.Database(DBSOURCE, (err) => {
             email TEXT,
             displayName TEXT,
             role TEXT,
+            role TEXT,
             date TEXT
-        )`);
+        )`, (err) => { });
 
         // Create Products Table
         db.run(`CREATE TABLE products (
@@ -70,7 +71,7 @@ let db = new sqlite3.Database(DBSOURCE, (err) => {
             category TEXT,
             thumbnail TEXT,
             images TEXT
-        )`);
+        )`, (err) => { });
     }
 });
 
