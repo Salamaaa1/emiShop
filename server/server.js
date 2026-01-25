@@ -3,7 +3,6 @@ const app = express();
 const db = require("./database.js");
 const cors = require('cors');
 const bodyParser = require("body-parser");
-const bodyParser = require("body-parser");
 const jwt = require('jsonwebtoken');
 const path = require('path');
 
