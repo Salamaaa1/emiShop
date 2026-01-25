@@ -57,7 +57,7 @@ app.get("/", (req, res, next) => {
     res.json({ "message": "Ok" });
 });
 
-// Mock Auth Endpoint (Exchange Firebase User for Backend JWT)
+// Auth Endpoint (Exchange User Token)
 // In a real app, you'd verify the Firebase ID Token here.
 app.post("/api/auth/token", (req, res) => {
     const user = req.body; // Expecting { email, uid, username }

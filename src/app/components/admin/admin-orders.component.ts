@@ -61,7 +61,7 @@ export class AdminOrdersComponent implements OnInit {
         // Simple validation
         if (!this.newProduct.title) return;
 
-        // Mock images array if empty
+        // Set default image if empty
         if (!this.newProduct.images || this.newProduct.images.length === 0) {
             this.newProduct.images = [this.newProduct.thumbnail];
         }
