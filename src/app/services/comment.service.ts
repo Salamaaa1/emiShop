@@ -19,7 +19,7 @@ export interface Comment {
 export class CommentService {
     private http = inject(HttpClient);
     private authService = inject(AuthService);
-    private apiUrl = 'http://localhost:3001/api/comments';
+    private apiUrl = '/api/comments';
 
     getComments(productId: string): Observable<{ message: string, data: Comment[] }> {
         return this.http.get<{ message: string, data: Comment[] }>(`${this.apiUrl}/${productId}`);

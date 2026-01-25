@@ -3,4 +3,4 @@ dist
 .git
 .vscode
 server/node_modules
-server/emishop.db
+

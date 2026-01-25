@@ -19,7 +19,7 @@ export interface Order {
 export class OrderService {
     private http = inject(HttpClient);
     private authService = inject(AuthService);
-    private apiUrl = 'http://localhost:3001/api/orders';
+    private apiUrl = '/api/orders';
 
     private getHeaders(): any {
         const token = this.authService.getToken();

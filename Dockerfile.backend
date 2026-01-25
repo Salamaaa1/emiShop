@@ -1,0 +1,15 @@
+FROM node:20-alpine
+
+WORKDIR /app
+
+# Copy Server Code
+COPY server/package*.json ./
+RUN npm install --production
+
+COPY server/ .
+
+# Expose Port
+EXPOSE 3001
+
+# Start Server
+CMD ["node", "server.js"]

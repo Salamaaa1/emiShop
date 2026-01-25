@@ -32,7 +32,7 @@ export class AuthService {
     }
 
     private getBackendToken(user: User): Observable<void> {
-        return this.http.post<{ token: string }>('http://localhost:3001/api/auth/token', {
+        return this.http.post<{ token: string }>('/api/auth/token', {
             uid: user.uid,
             email: user.email,
             username: user.displayName
@@ -44,7 +44,7 @@ export class AuthService {
             }),
             map(() => void 0),
             catchError(err => {
-                console.error('AuthService: Failed to get backend token. Is the server running on port 3001?', err);
+                console.error('AuthService: Failed to get backend token. Is the server running?', err);
                 return of(void 0);
             })
         );

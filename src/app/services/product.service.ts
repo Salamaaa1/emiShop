@@ -34,7 +34,7 @@ export interface ProductResponse {
     providedIn: 'root'
 })
 export class ProductService {
-    private apiUrl = 'http://localhost:3001/api/products';
+    private apiUrl = '/api/products';
 
 
     products = signal<Product[]>([]);

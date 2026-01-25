@@ -62,14 +62,7 @@ app.get("/", (req, res, next) => {
 // Serve Static Files (Angular Build)
 app.use(express.static(path.join(__dirname, '../dist/emiShop/browser')));
 
-// Fallback Route for SPA
-app.get('*', (req, res) => {
-    // Check if request is for API
-    if (req.url.startsWith('/api')) {
-        return res.status(404).json({ error: 'API endpoint not found' });
-    }
-    res.sendFile(path.join(__dirname, '../dist/emiShop/browser/index.html'));
-});
+
 
 // Auth Endpoint (Exchange User Token)
 // In a real app, you'd verify the Firebase ID Token here.
@@ -380,4 +373,12 @@ app.post("/api/products", verifyToken, (req, res) => {
         if (err) return res.status(400).json({ error: err.message });
         res.json({ message: "success", id: this.lastID });
     });
+});
+
+// Fallback Route for SPA
+app.get('*', (req, res) => {
+    if (req.url.startsWith('/api')) {
+        return res.status(404).json({ error: 'API endpoint not found' });
+    }
+    res.sendFile(path.join(__dirname, '../dist/emiShop/browser/index.html'));
 });

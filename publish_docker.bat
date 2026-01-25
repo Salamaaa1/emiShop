@@ -3,7 +3,8 @@ echo Starting Docker Build and Push Process...
 echo.
 
 echo 1. Logging into Docker Hub...
-docker login -u salamaaa11 -p Salama123@
+REM Use environment variable or interactive login
+docker login -u salamaaa11
 if %errorlevel% neq 0 (
     echo Login failed. Please check if Docker Desktop is running.
     pause
