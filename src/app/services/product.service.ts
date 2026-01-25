@@ -88,7 +88,7 @@ export class ProductService {
         });
     }
 
-    private authService = inject(AuthService); // Inject properly (need to import inject, AuthService)
+    private authService = inject(AuthService);
     addProduct(product: Partial<Product>): Observable<any> {
         const token = this.authService.getToken();
         const headers: any = token ? { Authorization: `Bearer ${token}` } : {};

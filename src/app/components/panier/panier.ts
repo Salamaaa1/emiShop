@@ -1,6 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CartService } from '../../services/cart.service';
+import { AuthService } from '../../services/auth.service';
 
 import { RouterModule } from '@angular/router';
 
@@ -13,4 +14,5 @@ import { RouterModule } from '@angular/router';
 })
 export class Panier {
   cartService = inject(CartService);
+  authService = inject(AuthService);
 }

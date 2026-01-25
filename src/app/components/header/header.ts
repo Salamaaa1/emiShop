@@ -1,9 +1,8 @@
 import { Component, inject } from '@angular/core';
-import { ProductService } from '../../services/product.service';
-import { CartService } from '../../services/cart.service';
-
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { ProductService } from '../../services/product.service';
+import { CartService } from '../../services/cart.service';
 import { AuthService } from '../../services/auth.service';
 
 @Component({

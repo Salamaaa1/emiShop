@@ -6,6 +6,7 @@ import { ProductService } from '../../services/product.service';
 
 @Component({
   selector: 'app-search-bar',
+  standalone: true,
   imports: [CommonModule, FormsModule, RouterModule],
   templateUrl: './search-bar.html',
   styleUrl: './search-bar.css',
@@ -44,9 +45,6 @@ export class SearchBar {
 
   search() {
     if (this.query.trim()) {
-      // If we had a full search page, we'd navigate there. 
-      // For now, let's just use the first suggestion or do nothing if filtering list.
-      // But user asked for interactive choices.
       this.showSuggestions = false;
     }
   }

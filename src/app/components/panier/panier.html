@@ -46,7 +46,14 @@
         <span class="h5 mb-0">Total</span>
         <span class="h4 mb-0 text-primary">{{ cartService.totalPrice() | number:'1.2-2' }} DH</span>
       </div>
-      <button class="btn btn-primary w-100 py-2" routerLink="/checkout" data-bs-dismiss="offcanvas">Commander</button>
+      <div class="d-grid gap-2">
+        <button *ngIf="authService.currentUserSig()" class="btn btn-primary w-100 py-2" routerLink="/checkout"
+          data-bs-dismiss="offcanvas">Commander</button>
+        <button *ngIf="!authService.currentUserSig()" class="btn btn-warning w-100 py-2" routerLink="/login"
+          data-bs-dismiss="offcanvas">
+          Se connecter pour commander
+        </button>
+      </div>
     </div>
     }
   </div>
