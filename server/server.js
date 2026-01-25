@@ -3,7 +3,9 @@ const app = express();
 const db = require("./database.js");
 const cors = require('cors');
 const bodyParser = require("body-parser");
+const bodyParser = require("body-parser");
 const jwt = require('jsonwebtoken');
+const path = require('path');
 
 const JWT_SECRET = "j_aime_angularrr_HHHHHH";
 
@@ -52,9 +54,22 @@ const verifyToken = (req, res, next) => {
     }
 }
 
-// Root endpoint
+/*
 app.get("/", (req, res, next) => {
     res.json({ "message": "Ok" });
+});
+*/
+
+// Serve Static Files (Angular Build)
+app.use(express.static(path.join(__dirname, '../dist/emiShop/browser')));
+
+// Fallback Route for SPA
+app.get('*', (req, res) => {
+    // Check if request is for API
+    if (req.url.startsWith('/api')) {
+        return res.status(404).json({ error: 'API endpoint not found' });
+    }
+    res.sendFile(path.join(__dirname, '../dist/emiShop/browser/index.html'));
 });
 
 // Auth Endpoint (Exchange User Token)

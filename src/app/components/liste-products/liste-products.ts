@@ -16,10 +16,7 @@ export class ListeProducts implements OnInit {
   cartService = inject(CartService);
 
   ngOnInit() {
-
-    if (this.productService.products().length === 0) {
-      this.productService.getProducts().subscribe();
-    }
+    this.productService.getProducts().subscribe();
   }
 
   onSortChange(event: Event) {
